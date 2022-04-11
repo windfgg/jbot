@@ -10,7 +10,7 @@ dir_bot=$dir_root/jbot
 dir_repo=$dir_root/repo
 file_bot_setting_user=$dir_root/config/bot.json
 repo_path="${dir_repo}/WindFgg_DiyJBOT"
-url="https://ghproxy.com/https://github.com/WindFgg/DiyJBot.git"
+url="https://ghproxy.com/https://github.com/WindFgg/jbot.git"
 repo_path="${dir_repo}/dockerbot"
 
 git_pull_scripts() {
@@ -87,9 +87,10 @@ echo -e "\nbot文件下载成功...\n"
 echo -e "3、安装python3依赖...\n"
 cd $dir_bot
 pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple/
-pip3 --default-timeout=100 install -r requirements.txt --no-cache-dir
+pip3 --default-timeout=1000 install -r requirements.txt --no-cache-dir
 echo -e "\npython3依赖安装成功...\n"
 echo -e "4、启动bot程序...\n"
+echo -e "日志在 ql\log\bot 里面\n"
 cd $dir_root
 if [ ! -d "/ql/log/bot" ]; then
     mkdir $dir_root/log/bot
