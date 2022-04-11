@@ -37,6 +37,10 @@ setshort-设置自定义按钮
 snode-选择脚本后台运行
 
 ====user====
+codelogin 验证码登录
+userlogin 扫码登陆(web或者电脑扫)
+rmuser 删除user登陆
+startuser 手动开启user
 id 对消息回复id 得到消息id
 del n 删除n条消息
 re n 转发n条消息

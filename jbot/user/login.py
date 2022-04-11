@@ -2,6 +2,8 @@ from telethon import TelegramClient, events
 import os
 import asyncio,qrcode
 from .. import API_HASH,API_ID,proxy,BOT,PROXY_START,PROXY_TYPE,connectionType,QR_IMG_FILE,jdbot,chat_id,CONFIG_DIR
+from .login import user
+
 if BOT.get('proxy_user') and BOT['proxy_user'] != "代理的username,有则填写，无则不用动":
     proxy = {
         'proxy_type': BOT['proxy_type'],
@@ -13,6 +15,7 @@ elif PROXY_TYPE == "MTProxy":
     proxy = (BOT['proxy_add'], BOT['proxy_port'], BOT['proxy_secret'])
 else:
     proxy = (BOT['proxy_type'], BOT['proxy_add'], BOT['proxy_port'])
+    
 # 开启tg对话
 if PROXY_START and BOT.get('noretry') and BOT['noretry']:
     user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection=connectionType,
@@ -55,16 +58,6 @@ async def user_login(event):
     except Exception as e:
         await jdbot.send_message(chat_id,'登录失败\n'+str(e))
 
-@jdbot.on(events.NewMessage(from_users=chat_id,pattern=r'^/rmuser$'))
-async def user_login(event):
-    try:
-        await jdbot.send_message(chat_id,'即将删除user.session')
-        os.remove(f'{CONFIG_DIR}/user.session')
-        await jdbot.send_message(chat_id,'已经删除user.session\n请重新登录')
-    except Exception as e:
-        await jdbot.send_message(chat_id,'删除失败\n'+str(e))
-
-
 @jdbot.on(events.NewMessage(from_users=chat_id,pattern=r'^/codelogin$'))
 async def user_login(event):
     try:
@@ -78,10 +71,28 @@ async def user_login(event):
             code = await conv.get_response()
             print(code.raw_text)
             await user.sign_in(phone.raw_text,code.raw_text.replace('code',''))
-        await jdbot.send_message(chat_id,'恭喜您已登录成功,请修改 /set 将开启user 改为True 并重启机器人 /reboot')
+        await jdbot.send_message(chat_id,'恭喜您已登录成功,请修改 /set 将开启user 改为True 并重启机器人 /rebot')
     except asyncio.exceptions.TimeoutError:
         msg = await jdbot.edit_message(msg, '登录已超时，对话已停止')
     except Exception as e:
         await jdbot.send_message(chat_id,'登录失败\n 再重新登录\n'+str(e))
     finally:
         await user.disconnect()
+        
+@jdbot.on(events.NewMessage(from_users=chat_id,pattern=r'^/rmuser$'))
+async def user_login(event):
+    try:
+        await jdbot.send_message(chat_id,'即将删除user.session')
+        os.remove(f'{CONFIG_DIR}/user.session')
+        await jdbot.send_message(chat_id,'已经删除user.session\n请重新登录')
+    except Exception as e:
+        await jdbot.send_message(chat_id,'删除失败\n'+str(e))
+        
+        
+@jdbot.on(events.NewMessage(from_users=chat_id,pattern=r'^/startuser$'))
+async def user_login(event):
+    try:
+        user.start()
+        await jdbot.send_message(chat_id,'启动user成功')
+    except Exception as e:
+        await jdbot.send_message(chat_id,'启动失败\n'+str(e))
