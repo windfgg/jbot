@@ -69,7 +69,7 @@ def creat_chart(xdata, title, bardata, bardata2, linedate):
             "labels": xdata,
             "datasets": [
                 {
-                    "label": "IN",
+                    "label": "收入",
                     "backgroundColor": [
                         "rgb(255, 99, 132)",
                         "rgb(255, 159, 64)",
@@ -83,9 +83,9 @@ def creat_chart(xdata, title, bardata, bardata2, linedate):
                     "data": bardata
                 },
                 {
-                    "label": "OUT",
+                    "label": "支出",
                     "backgroundColor": [
-                        "rgb(255, 99, 132)",
+                        "rgb(0, 255, 123)",
                         "rgb(255, 159, 64)",
                         "rgb(255, 205, 86)",
                         "rgb(75, 192, 192)",
@@ -97,7 +97,7 @@ def creat_chart(xdata, title, bardata, bardata2, linedate):
                     "data": bardata2
                 },
                 {
-                    "label": "TOTAL",
+                    "label": "总数",
                     "type": "line",
                     "fill": False,
                     "backgroundColor": "rgb(201, 203, 207)",
