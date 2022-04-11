@@ -90,7 +90,7 @@ pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple/
 pip3 --default-timeout=1000 install -r requirements.txt --no-cache-dir
 echo -e "\npython3依赖安装成功...\n"
 echo -e "4、启动bot程序...\n"
-echo -e "日志在 ql\log\bot 里面\n"
+echo -e "日志在 ql\log\bot 目录里面\n"
 cd $dir_root
 if [ ! -d "/ql/log/bot" ]; then
     mkdir $dir_root/log/bot

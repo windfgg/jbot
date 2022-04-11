@@ -1,11 +1,10 @@
 from telethon import events
 from .. import jdbot, chat_id, CONFIG_DIR
 from .utils import cmd
-from .uplog import version, botlog
+from .update_log import version, botlog
 import requests
 
-
-@jdbot.on(events.NewMessage(from_users=chat_id, pattern='^/update$'))
+@jdbot.on(events.NewMessage(from_users=chat_id, pattern='/update'))
 async def bot_up(event):
     try:
         msg = await jdbot.send_message(chat_id, '开始更新程序 请稍候...')
