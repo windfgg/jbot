@@ -91,7 +91,7 @@ async def user_login(event):
                 Button.inline("关闭user", data="close") if state() else Button.inline("开启user", data="start"),
                 Button.inline('取消会话', data='cancel')
             ]
-            msg = await jdbot.edit_message(msg, '请做出你的选择：', buttons=split_list(buttons, row))
+            msg = await jdbot.edit_message(msg, '请做出你的选择', buttons=split_list(buttons, row))
             convdata = await conv.wait_event(press_event(sender))
             res = bytes.decode(convdata.data)
             if res == 'cancel':
