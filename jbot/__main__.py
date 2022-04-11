@@ -66,7 +66,7 @@ async def hello():
     info = '[项目地址](https://github.com/WindFgg/jbot) \t| \t[交流频道](https://t.me/Feng_Yun7)'
     hello_words = BOT_SET["启动问候语"].split("|")
     hello_word = hello_words[random.randint(0, len(hello_words) - 1)]
-    await jdbot.send_message(chat_id, f'{str(hello_word)}\n\n\t{info}', link_preview=True)
+    await jdbot.send_message(chat_id, f'{str(hello_word)}\n\n\t{info}', link_preview=False)
 
 
 if __name__ == "__main__":
