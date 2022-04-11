@@ -27,7 +27,7 @@ chart-统计收支变化
 cmd-执行cmd命令
 edit-编辑文件
 env-管理环境变量
-dl-下载文件
+down-下载文件
 getfile-获取目录下文件
 log-选择日志
 node-执行js脚本文件(绝对路径)

@@ -5,7 +5,7 @@ from .. import jdbot, chat_id, logger, SCRIPTS_DIR, CONFIG_DIR, logger, BOT_SET,
 from .utils import press_event, backup_file, DIY_DIR, TASK_CMD, V4, cmd, add_cron
 
 
-@jdbot.on(events.NewMessage(from_users=chat_id, pattern=r'^/dl'))
+@jdbot.on(events.NewMessage(from_users=chat_id, pattern=r'^/down'))
 async def bot_url_file(event):
     '''接收github链接后执行程序'''
     msg_text = event.raw_text.split(' ')
@@ -16,7 +16,7 @@ async def bot_url_file(event):
             url = None
         SENDER = event.sender_id
         if not url:
-            await jdbot.send_message(chat_id, '请正确使用dl命令，需加入下载链接')
+            await jdbot.send_message(chat_id, '请正确使用down命令，需加入下载链接')
             return
         else:
             msg = await jdbot.send_message(chat_id, '请稍后正在下载文件')

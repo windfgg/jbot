@@ -17,7 +17,7 @@ async def bot_start(event):
 /addcron 增加定时任务 例: `/addcron 0 0 * * * xxx.js`
 /env 环境变量管理
 /getfile 获取容器根目录下的文件
-/dl url 下载文件
+/down url 下载文件
 /edit 从目录选择文件并编辑 需要将编辑好信息全部发给BOT
 /log 查看脚本执行日志
 /bean 获取指定账号收支 例：`/bean 1`
