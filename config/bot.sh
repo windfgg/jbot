@@ -74,7 +74,7 @@ if [ -d ${repo_path}/.git ]; then
     cp -rf "$repo_path/jbot" $dir_root
     jbot_md5sum_new=$(cd $dir_bot; find . -type f \( -name "*.py" -o -name "*.ttf" \) | xargs md5sum)
     if [[ "$jbot_md5sum_new" != "$jbot_md5sum_old" ]]; then
-        notify_telegram "检测到BOT程序有更新，BOT将重启。\n\n友情提醒：如果当前有从BOT端发起的正在运行的任务，将被中断。\n\n本条消息由Jup程序通过BOT发出。"
+        notify_telegram "检测到BOT程序有更新，BOT将重启。\n\n友情提醒：如果当前有从BOT端发起的正在运行的任务，将被中断。\n\n本条消息由JUP程序通过BOT发出。"
     fi
 else
   git_clone_scripts ${url} ${repo_path} "main"
