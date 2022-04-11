@@ -72,11 +72,11 @@ def creat_chart(xdata, title, bardata, bardata2, linedate):
                     "label": "收入",
                     "backgroundColor": [
                         "rgb(255, 99, 132)",
-                        "rgb(255, 159, 64)",
-                        "rgb(255, 205, 86)",
-                        "rgb(75, 192, 192)",
-                        "rgb(54, 162, 235)",
-                        "rgb(153, 102, 255)",
+                        "rgb(255, 99, 132)",
+                        "rgb(255, 99, 132)",
+                        "rgb(255, 99, 132)",
+                        "rgb(255, 99, 132)",
+                        "rgb(255, 99, 132)",
                         "rgb(255, 99, 132)"
                     ],
                     "yAxisID": "y1",
@@ -86,12 +86,12 @@ def creat_chart(xdata, title, bardata, bardata2, linedate):
                     "label": "支出",
                     "backgroundColor": [
                         "rgb(0, 255, 123)",
-                        "rgb(255, 159, 64)",
-                        "rgb(255, 205, 86)",
-                        "rgb(75, 192, 192)",
-                        "rgb(54, 162, 235)",
-                        "rgb(153, 102, 255)",
-                        "rgb(255, 99, 132)"
+                        "rgb(0, 255, 123)",
+                        "rgb(0, 255, 123)",
+                        "rgb(0, 255, 123)",
+                        "rgb(0, 255, 123)",
+                        "rgb(0, 255, 123)",
+                        "rgb(0, 255, 123)"
                     ],
                     "yAxisID": "y1",
                     "data": bardata2
