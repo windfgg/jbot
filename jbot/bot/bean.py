@@ -58,7 +58,7 @@ async def bot_bean(event):
             await jdbot.delete_messages(chat_id, msg)
             await jdbot.send_message(chat_id, '您的近日支出情况', file=BEAN_IMG)
         elif not V4 and (text == 'in' or text == 'out' or text is None):
-            await jdbot.edit_message(msg, 'QL暂不支持使用bean in、out ,请使用/bean n n为数字')
+            await jdbot.edit_message(msg, 'QL暂不支持使用bean in、out ,请使用`/bean n` \nn为数字')
         elif text and int(text):
             res = get_bean_data(int(text))
             if res['code'] != 200:
