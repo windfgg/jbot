@@ -1,18 +1,24 @@
-version = 'version :1.0.0.0'
-botlog = '''
-**2021年9月24日**
-本次更新内容如下:
-    - 新增 /userlogin /codelogin
-        codelogin 测试过了没问题，
-        userlogin 摄像头坏了没办法测试，自行测试吧
-        使用二维码/验证码 登录tguser
-        配合 /set ‘开启user’ 可以开启tg用户登录
-    - 几个user功能 id、del re
-        回复id 得到id
-        del n 删除n条消息
-        re n 转发n条消息
-    - 新增 /reboot 重启机器人
-    - 新增 /aff 来杯肥宅快乐水
-    - NEW BUG...
-'''
+from telethon import events
+from .. import jdbot, chat_id, CONFIG_DIR
+from .utils import cmd
+from .uplog import version, botlog
+import requests
 
+
+@jdbot.on(events.NewMessage(from_users=chat_id, pattern='^/update$'))
+async def bot_up(event):
+    try:
+        msg = await jdbot.send_message(chat_id, '开始更新程序 请稍候...')
+        res = requests.get(
+            'https://ghproxy.com/https://raw.githubusercontent.com/WindFgg/jbot/main/config/bot.sh').text
+        with open(f'{CONFIG_DIR}/bot.sh', 'w+', encoding='utf-8') as f:
+            f.write(res)
+        await cmd(f'bash {CONFIG_DIR}/bot.sh')
+        await jdbot.delete_messages(chat_id, msg)
+    except Exception as e:
+        await jdbot.send_message(chat_id, str(e))
+
+
+@jdbot.on(events.NewMessage(from_users=chat_id, pattern=r'^/ver$', incoming=True))
+async def bot_ver(event):
+    await jdbot.send_message(chat_id, f'当前版本:`{version}`\n{botlog}')

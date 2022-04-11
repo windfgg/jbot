@@ -11,8 +11,14 @@ async def bot_help(event):
     else:
         text = 'mhelp'
     mhelp = '''
+====BOT====
+help 获取帮助
+start-获取帮助详细信息
+rebot-重启BOT
+ver-版本、更新日志
+update-更新BOT
 cx-查询现在执行的任务列表
-a-自定义快捷按钮
+s-自定义快捷按钮
 clearboard-删除快捷按钮
 addcron-增加定时
 cron-管理定时设定
@@ -29,8 +35,12 @@ set-BOT设置
 setname-设置命令别名
 setshort-设置自定义按钮
 snode-选择脚本后台运行
-restart-重启BOT程序
-start-开始使用本程序'''
+
+====user====
+id 对消息回复id 得到消息id
+del n 删除n条消息
+re n 转发n条消息
+'''
     bean = '/bean 加数字，获取该账户近期收支情况\n/bean in\out获取所有账户近期收或支情况\n/bean 获取账户总豆数量'
     cmd = '/cmd用于执行cmd命令，如果命令持续10分钟仍未结束，将强行终止，以保障机器人响应'
     edit = '/edit 进入/jd目录选择文件进行编辑，仅限简易编辑\n/edit /xx/config进入config目录选择文件编辑\n/edit /xx/config/config.sh 直接编辑config.sh文件'

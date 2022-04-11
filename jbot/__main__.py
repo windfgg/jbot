@@ -19,7 +19,7 @@ logger.info('loading user module...')
 load_module('user', BOT_U_DIR)
 
 async def new_ver():
-    info = '[项目地址](https://github.com/WindFgg/DiyJBot) \t| \t[交流频道](https://t.me/Feng_Yun7) '
+    info = '[项目地址](https://github.com/WindFgg/jbot) \t| \t[交流频道](https://t.me/Feng_Yun7) '
     if os.path.exists(BOT_UP_LOG):
         is_new = False
         with open(BOT_UP_LOG, 'r', encoding='utf-8') as f:
@@ -64,10 +64,10 @@ async def bot_set_init():
 
 async def hello():
     if BOT_SET.get('启动问候') and BOT_SET['启动问候'].lower() == 'true':
-        info = '[项目地址](https://github.com/WindFgg/DiyJBot) \t| \t[交流频道](https://t.me/Feng_Yun7)'
+        info = '[项目地址](https://github.com/WindFgg/jbot) \t| \t[交流频道](https://t.me/Feng_Yun7)'
         hello_words = BOT_SET["启动问候语"].split("|")
         hello_word = hello_words[random.randint(0, len(hello_words) - 1)]
-        await jdbot.send_message(chat_id, f'{str(hello_word)}\n\n\t{info}', link_preview=False)
+        await jdbot.send_message(chat_id, f'{str(hello_word)}\n\n\t{info}', link_preview=True)
 
 
 if __name__ == "__main__":
