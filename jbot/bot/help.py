@@ -40,7 +40,7 @@ snode-选择脚本后台运行
 codelogin 验证码登录
 userlogin 扫码登陆(web或者电脑扫)
 rmuser 删除user登陆
-startuser 手动开启user
+user 手动开启user
 id 对消息回复id 得到消息id
 del n 删除n条消息
 re n 转发n条消息

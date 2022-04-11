@@ -2,7 +2,6 @@ from telethon import TelegramClient, events
 import os
 import asyncio,qrcode
 from .. import API_HASH,API_ID,proxy,BOT,PROXY_START,PROXY_TYPE,connectionType,QR_IMG_FILE,jdbot,chat_id,CONFIG_DIR
-from .login import user
 
 if BOT.get('proxy_user') and BOT['proxy_user'] != "代理的username,有则填写，无则不用动":
     proxy = {
@@ -87,9 +86,8 @@ async def user_login(event):
         await jdbot.send_message(chat_id,'已经删除user.session\n请重新登录')
     except Exception as e:
         await jdbot.send_message(chat_id,'删除失败\n'+str(e))
-        
-        
-@jdbot.on(events.NewMessage(from_users=chat_id,pattern=r'^/startuser$'))
+         
+@jdbot.on(events.NewMessage(from_users=chat_id,pattern=r'^/user$'))
 async def user_login(event):
     try:
         user.start()
