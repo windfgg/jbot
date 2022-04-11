@@ -5,7 +5,7 @@
 安装请进入青龙执行以下命令
 
 ```sh
-cd /ql && rm -rf /ql/jbot && rm -rf /ql/repo/dockerbot && rm -rf /ql/shell/bot.sh && cd /ql/shell && wget https://raw.githubusercontent.com/WindFgg/jbot/main/config/bot.sh && chmod 777 bot.sh && ./bot.sh
+cd /ql && rm -rf /ql/jbot && rm -rf /ql/repo/dockerbot && rm -rf /ql/shell/bot.sh && cd /ql/shell && wget https://ghproxy.com/https://raw.githubusercontent.com/WindFgg/jbot/main/config/bot.sh && chmod 777 bot.sh && ./bot.sh
 ```
 
 ## 修改
