@@ -8,7 +8,7 @@ from .login import user
 
 BEAN_IMG = f'{LOG_DIR}/bot/bean-{uuid4()}.jpg'
 
-@user.on(events.NewMessage(pattern=r'^bc', outgoing=True))
+@user.on(events.NewMessage(pattern=r'^chart', outgoing=True))
 async def my_chartinfo(event):
     msg_text= event.raw_text.split(' ')
     if isinstance(msg_text, list) and len(msg_text) == 2:
@@ -17,7 +17,7 @@ async def my_chartinfo(event):
         text = None  
     
     if text==None:
-        await user.send_message(event.chat_id,'请指定要查询的账号,格式: bc 1 或 bc ptpin')
+        await user.send_message(event.chat_id,'请指定要查询的账号,格式: chart 1 或 chart ptpin')
         return    
     else:
         notification = await user.send_message(event.chat_id, '开始查询账号'+text+'的资产，请稍后...')

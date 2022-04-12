@@ -89,6 +89,7 @@ async def user_login(event):
             buttons = [
                 Button.inline("重新登录", data="relogin") if os.path.exists(session) else Button.inline("我要登录", data="login"),
                 Button.inline("关闭user", data="close") if state() else Button.inline("开启user", data="start"),
+                Button.inline('删除Session', data='clear'),
                 Button.inline('取消会话', data='cancel')
             ]
             msg = await jdbot.edit_message(msg, '请做出你的选择', buttons=split_list(buttons, row))
@@ -103,6 +104,12 @@ async def user_login(event):
             elif res == 'start':
                 await jdbot.edit_message(msg, "开启成功，请确保session可用，否则请进入容器修改botset.json并删除user.session！\n现准备重启机器人！")
                 start()
+            elif res == 'clear':
+                if os.path.exists(session):
+                    os.remove(session)
+                    await jdbot.edit_message(msg, "删除Session成功")
+                else:
+                    await jdbot.edit_message(msg, "Session不存在")
             else:
                 await jdbot.delete_messages(chat_id, msg)
                 login = True

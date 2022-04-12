@@ -15,7 +15,7 @@ BEAN_IMG = f'{LOG_DIR}/bean-{uuid4()}.jpg'
 FONT_FILE = f'{BOT_DIR}/font/jet.ttf'
 
 
-@user.on(events.NewMessage(pattern=r'^bb', outgoing=True))
+@user.on(events.NewMessage(pattern=r'^bean', outgoing=True))
 async def bot_bean(event):
     msg_text= event.raw_text.split(' ')
     if isinstance(msg_text, list) and len(msg_text) == 2:
@@ -24,7 +24,7 @@ async def bot_bean(event):
         text = None  
     
     if text==None:
-        await user.send_message(event.chat_id,'请指定要查询的账号,格式: bb 1 或 bb ptpin')
+        await user.send_message(event.chat_id,'请指定要查询的账号,格式: bean 1 或 bean ptpin')
         return    
     else:
         notification = await user.send_message(event.chat_id, '开始查询账号'+text+'的资产，请稍后...')
@@ -44,7 +44,7 @@ async def bot_bean(event):
         
     elif not V4 and (text == 'in' or text == 'out' or text is None):
         await notification.delete()
-        await user.send_message(event.chat_id,'QL暂不支持使用bean in、out ,请使用/bean n n为数字')
+        await user.send_message(event.chat_id,'QL暂不支持使用bean in、out ,请使用bean n  n为数字')
         
     elif text and int(text):
         res = get_bean_data(int(text))
