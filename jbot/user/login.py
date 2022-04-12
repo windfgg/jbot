@@ -32,13 +32,13 @@ else:
     proxy = (BOT['proxy_type'], BOT['proxy_add'], BOT['proxy_port'])
 # 开启tg对话
 if PROXY_START and BOT.get('noretry') and BOT['noretry']:
-    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection=connectionType, proxy=proxy)
+    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection=connectionType, proxy=proxy).start()
 elif PROXY_START:
-    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection=connectionType, proxy=proxy, connection_retries=None)
+    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection=connectionType, proxy=proxy, connection_retries=None).start()
 elif BOT.get('noretry') and BOT['noretry']:
-    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH)
+    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH).start()
 else:
-    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection_retries=None)
+    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection_retries=None).start()
 
 
 def restart():
