@@ -100,7 +100,6 @@ async def user_login(event):
             res = bytes.decode(convdata.data)
             if res == 'cancel':
                 await jdbot.edit_message(msg, '对话已取消')
-                return
             elif res == 'close':
                 await jdbot.edit_message(msg, "关闭成功，准备重启机器人！")
                 close()
