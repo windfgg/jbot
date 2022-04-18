@@ -40,6 +40,7 @@ elif BOT.get('noretry') and BOT['noretry']:
     user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH)
 else:
     user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection_retries=None)
+
 #解决/user重复对话, user?不回复问题
 if BOT_SET['开启user'].lower() == 'true':
     logger.info("开启user监控")
@@ -99,13 +100,13 @@ async def user_login(event):
             res = bytes.decode(convdata.data)
             if res == 'cancel':
                 await jdbot.edit_message(msg, '对话已取消')
-                # return
+                return
             elif res == 'close':
                 await jdbot.edit_message(msg, "关闭成功，准备重启机器人！")
                 close()
             elif res == 'start':
                 await jdbot.edit_message(msg, "开启成功，请确保session可用，否则请进入容器修改botset.json并删除user.session！\n现准备重启机器人！")
-                start()
+                restart()
             else:
                 await jdbot.delete_messages(chat_id, msg)
                 login = True
