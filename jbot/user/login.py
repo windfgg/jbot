@@ -6,18 +6,14 @@ from telethon import TelegramClient, events
 
 from .. import API_HASH, API_ID, BOT, PROXY_START, PROXY_TYPE, connectionType, jdbot, chat_id, CONFIG_DIR
 from ..bot.utils import V4
-import json
 import os
-import re
-import sys
-import time
 from asyncio import exceptions
 
 import requests
 from telethon import events, Button
 
 from .. import chat_id, jdbot, logger, TOKEN
-from ..bot.utils import press_event, V4, CONFIG_SH_FILE, row, split_list, AUTH_FILE, get_cks
+from ..bot.utils import press_event, V4, row, split_list
 
 if BOT.get('proxy_user') and BOT['proxy_user'] != "代理的username,有则填写，无则不用动":
     proxy = {
@@ -77,7 +73,6 @@ def state():
     else:
         return False
     
-
 @jdbot.on(events.NewMessage(from_users=chat_id, pattern=r'^/user$'))
 async def user_login(event):
     try:
@@ -127,5 +122,5 @@ async def user_login(event):
         await jdbot.edit_message(msg, '登录已超时，对话已停止')
     except Exception as e:
         await jdbot.send_message(chat_id, '登录失败\n 再重新登录\n' + str(e))
-    finally:
-        await user.disconnect()
+#    finally:
+#        await user.disconnect()
