@@ -43,7 +43,7 @@ else:
 
 #解决/user重复对话, user?不回复问题
 if BOT_SET['开启user'].lower() == 'true':
-    logger.info("开启user监控")
+    logger.info("已开启user")
     user = user.start()
 
 def restart():
