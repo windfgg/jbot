@@ -1,23 +1,21 @@
 import asyncio
 import os
-from os.path import exists
-
-from telethon import TelegramClient, events
-
-from .. import API_HASH, API_ID, BOT, PROXY_START, PROXY_TYPE, connectionType, jdbot, chat_id, CONFIG_DIR
-from ..bot.utils import V4
-import json
-import os
-import re
-import sys
-import time
-from asyncio import exceptions
-
-import requests
+from telethon import TelegramClient
 from telethon import events, Button
 
-from .. import chat_id, jdbot, logger, TOKEN
-from ..bot.utils import press_event, V4, CONFIG_SH_FILE, row, split_list, AUTH_FILE, get_cks
+from .. import API_HASH, API_ID, BOT, PROXY_START, PROXY_TYPE, connectionType, CONFIG_DIR
+from .. import chat_id, jdbot, BOT_SET, logger
+from ..bot.utils import press_event, V4, row, split_list
+
+# 兼容青龙新版目录
+try:
+    qlver = os.environ['QL_BRANCH']
+    if qlver >= 'v2.12.0':
+        QLMain='/ql/data'
+    else:
+        QLMain = '/ql'
+except:
+    QLMain = '/ql'
 
 if BOT.get('proxy_user') and BOT['proxy_user'] != "代理的username,有则填写，无则不用动":
     proxy = {
@@ -30,26 +28,30 @@ elif PROXY_TYPE == "MTProxy":
     proxy = (BOT['proxy_add'], BOT['proxy_port'], BOT['proxy_secret'])
 else:
     proxy = (BOT['proxy_type'], BOT['proxy_add'], BOT['proxy_port'])
+
+
 # 开启tg对话
 if PROXY_START and BOT.get('noretry') and BOT['noretry']:
-    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection=connectionType, proxy=proxy).start()
+    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection=connectionType, proxy=proxy)
 elif PROXY_START:
-    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection=connectionType, proxy=proxy, connection_retries=None).start()
+    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection=connectionType, proxy=proxy,
+                          connection_retries=None)
 elif BOT.get('noretry') and BOT['noretry']:
-    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH).start()
+    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH)
 else:
-    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection_retries=None).start()
-
+    user = TelegramClient(f'{CONFIG_DIR}/user', API_ID, API_HASH, connection_retries=None)
+#解决/user重复对话, user?不回复问题
+if BOT_SET['开启user'].lower() == 'true':
+    logger.info("开启user监控")
+    user = user.start()
 
 def restart():
-    text = "if [ -d '/jd' ]; then cd /jd/jbot; pm2 start ecosystem.config.js; cd /jd; pm2 restart jbot; else " \
-           "ps -ef | grep 'python3 -m jbot' | grep -v grep | awk '{print $1}' | xargs kill -9 2>/dev/null; " \
-           "nohup python3 -m jbot >/ql/log/bot/bot.log 2>&1 & fi "
+    text = "pm2 restart jbot"
     os.system(text)
 
 
 def start():
-    file = "/jd/config/botset.json" if V4 else "/ql/config/botset.json"
+    file = "/jd/config/botset.json" if V4 else f"{QLMain}/config/botset.json"
     with open(file, "r", encoding="utf-8") as f1:
         botset = f1.read()
     botset = botset.replace('user": "False"', 'user": "True"')
@@ -59,7 +61,7 @@ def start():
 
 
 def close():
-    file = "/jd/config/botset.json" if V4 else "/ql/config/botset.json"
+    file = "/jd/config/botset.json" if V4 else f"{QLMain}/config/botset.json"
     with open(file, "r", encoding="utf-8") as f1:
         botset = f1.read()
     botset = botset.replace('user": "True"', 'user": "False"')
@@ -69,7 +71,7 @@ def close():
 
 
 def state():
-    file = "/jd/config/botset.json" if V4 else "/ql/config/botset.json"
+    file = "/jd/config/botset.json" if V4 else f"{QLMain}/config/botset.json"
     with open(file, "r", encoding="utf-8") as f1:
         botset = f1.read()
     if 'user": "True"' in botset:
@@ -83,7 +85,7 @@ async def user_login(event):
     try:
         login = False
         sender = event.sender_id
-        session = "/jd/config/user.session" if V4 else "/ql/config/user.session"
+        session = "/jd/config/user.session" if V4 else f"{QLMain}/config/user.session"
         async with jdbot.conversation(sender, timeout=120) as conv:
             msg = await conv.send_message("请做出你的选择")
             buttons = [
@@ -92,23 +94,18 @@ async def user_login(event):
                 Button.inline('删除Session', data='clear'),
                 Button.inline('取消会话', data='cancel')
             ]
-            msg = await jdbot.edit_message(msg, '请做出你的选择', buttons=split_list(buttons, row))
+            msg = await jdbot.edit_message(msg, '请做出你的选择：', buttons=split_list(buttons, row))
             convdata = await conv.wait_event(press_event(sender))
             res = bytes.decode(convdata.data)
             if res == 'cancel':
                 await jdbot.edit_message(msg, '对话已取消')
+                # return
             elif res == 'close':
                 await jdbot.edit_message(msg, "关闭成功，准备重启机器人！")
                 close()
             elif res == 'start':
                 await jdbot.edit_message(msg, "开启成功，请确保session可用，否则请进入容器修改botset.json并删除user.session！\n现准备重启机器人！")
                 start()
-            elif res == 'clear':
-                if os.path.exists(session):
-                    os.remove(session)
-                    await jdbot.edit_message(msg, "删除Session成功")
-                else:
-                    await jdbot.edit_message(msg, "Session不存在")
             else:
                 await jdbot.delete_messages(chat_id, msg)
                 login = True
@@ -126,6 +123,6 @@ async def user_login(event):
     except asyncio.exceptions.TimeoutError:
         await jdbot.edit_message(msg, '登录已超时，对话已停止')
     except Exception as e:
-        await jdbot.send_message(chat_id, '登录失败\n 再重新登录\n' + str(e))
-    finally:
-        await user.disconnect()
+        await jdbot.send_message(chat_id, '登录失败\n 请重新登录\n' + str(e))
+    # finally:
+    #     await user.disconnect()
